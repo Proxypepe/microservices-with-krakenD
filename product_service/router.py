@@ -39,5 +39,5 @@ async def add_new_product(product_id: int):
             return
     raise HTTPException(
         status_code=404,
-        detail=f"Not Found product with id {product_id}",
+        detail=f"Not Found a product with id {product_id}",
     )
