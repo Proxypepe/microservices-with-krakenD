@@ -1,0 +1,118 @@
+{
+  "$schema": "https://www.krakend.io/schema/v3.json",
+  "version": 3,
+  "output_encoding": "json",
+  "debug_endpoint": true,
+  "extra_config": {
+    "router": {
+      "return_error_msg": false
+    }
+  },
+  "endpoints": [
+    {
+      "endpoint": "/v1/products",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/products",
+          "sd": "static",
+          "method": "GET",
+          "is_collection": true,
+          "host": [
+            "http://product_service:8000"
+          ],
+          "mapping": {
+            "collection": "products"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/products/add",
+      "method": "POST",
+      "output_encoding": "json",
+
+      "backend": [
+        {
+          "url_pattern": "/v1/products/add",
+          "encoding": "safejson",
+          "sd": "static",
+          "method": "POST",
+          "host": [
+            "http://product_service:8000"
+          ]
+        }
+      ],
+      "extra_config": {
+        "validation/json-schema": {
+          "type": "object",
+          "required": [
+            "name",
+            "description",
+            "price"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "price": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    {
+      "endpoint": "/v1/categories",
+      "method": "GET",
+      "output_encoding": "json",
+      "backend": [
+        {
+          "url_pattern": "/v1/categories",
+          "encoding": "json",
+          "is_collection": true,
+          "sd": "static",
+          "method": "GET",
+          "host": [
+            "http://category_service:8000"
+          ],
+          "mapping": {
+            "collection": "categories"
+          }
+        }
+      ]
+    },
+    {
+      "endpoint": "/v1/data",
+      "method": "GET",
+      "backend": [
+        {
+          "url_pattern": "/v1/products",
+          "encoding": "safejson",
+          "is_collection": true,
+          "host": [
+            "http://product_service:8000"
+          ],
+          "mapping": {
+            "collection": "products"
+          }
+        },
+        {
+          "url_pattern": "/v1/categories",
+          "encoding": "safejson",
+          "is_collection": true,
+          "host": [
+            "http://category_service:8000"
+          ],
+          "mapping": {
+            "collection": "categories"
+          }
+        }
+      ]
+    }
+  ]
+}

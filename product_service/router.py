@@ -12,12 +12,13 @@ serial = 5
 products = generate_products(serial)
 
 
-@router.get('/', status_code=status.HTTP_200_OK, response_model=list[Product])
+@router.get('/', status_code=200, response_model=list[Product])
 async def get_all_products():
     return products
 
 
-@router.post('/', status_code=status.HTTP_201_CREATED, response_model=Product)
+# Don't work with '/', redirect error
+@router.post('/add', status_code=201, response_model=Product)
 async def add_new_product(product: PostProduct):
     global serial
     new_product = Product(
