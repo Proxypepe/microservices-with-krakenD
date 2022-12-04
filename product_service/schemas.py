@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+import uuid
 
 
 class PostProduct(BaseModel):
@@ -8,6 +9,8 @@ class PostProduct(BaseModel):
 
 
 class Product(PostProduct):
-    id: int
+    product_uuid: uuid.UUID
 
+    class Config:
+        orm_mode = True
 
