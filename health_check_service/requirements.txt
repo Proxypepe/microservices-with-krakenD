@@ -1,0 +1,4 @@
+httpx
+Rocketry
+prometheus-fastapi-instrumentator
+prometheus_client

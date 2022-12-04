@@ -16,6 +16,10 @@ services:
 #    ports:
 #      - "8002:8000"
 
+  healthcheck_service:
+    container_name: healthcheck_service
+    build: ./health_check_service
+
   api_gateway:
     image: devopsfaith/krakend:watch
     container_name: api_gateway
@@ -30,6 +34,7 @@ services:
 #      - category_service
 
   jaeger-all-in-one:
+    container_name: jaeger
     image: jaegertracing/all-in-one
     environment:
       - JAEGER_DISABLED=false
@@ -45,15 +50,29 @@ services:
       - "14268:14268"
       - "9411:9411"
 
-#  prometheus:
-#    container_name: prometheus
-#    image: prom/prometheus:latest
-#    volumes:
-#      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
-#    ports:
-#      - "9090:9090"
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc/prometheus/
+    container_name: prometheus
+    hostname: prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Moscow"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    hostname: grafana
+    ports:
+      - "3000:3000"
 
   mongo_product:
+    container_name: mongodb
     image: bitnami/mongodb
     ports:
       - "27017:27017"
