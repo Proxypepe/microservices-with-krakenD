@@ -1,0 +1,13 @@
+fastapi==0.87.0
+uvicorn==0.20.0
+jaeger-client==4.8.0
+opentracing-instrumentation==3.3.1
+mongoengine==0.24.2
+prometheus-fastapi-instrumentator
+prometheus_client
+requests
+httpx
+pytest
+mongomock
+pytest-asyncio
+anyio
