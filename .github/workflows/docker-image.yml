@@ -51,10 +51,10 @@ jobs:
           context: ./product_service
           push: true
           tags: justhynd/product_service:latest
-      -
-        name: Update repo description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: justhynd/product_service:latest
+#      -
+#        name: Update repo description
+#        uses: peter-evans/dockerhub-description@v2
+#        with:
+#          username: ${{ secrets.DOCKERHUB_USERNAME }}
+#          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+#          repository: justhynd/product_service:latest
