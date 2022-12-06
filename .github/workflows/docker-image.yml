@@ -54,6 +54,7 @@ jobs:
           context: .
           push: true
           tags: justhynd/product_service:latest
+        run: ls
       -
         name: Update repo description
         uses: peter-evans/dockerhub-description@v2
