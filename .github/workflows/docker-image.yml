@@ -33,9 +33,6 @@ jobs:
         name: Checkout
         uses: actions/checkout@v3
       -
-        name: Set up repository
-        run: cd product_service
-      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       -
@@ -51,10 +48,9 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./product_service
           push: true
           tags: justhynd/product_service:latest
-        run: ls
       -
         name: Update repo description
         uses: peter-evans/dockerhub-description@v2
