@@ -46,12 +46,6 @@ async def add_new_product(product: PostProduct):
     with tracer.start_span(__name__, child_of=get_current_span()) as span:
         with span_in_context(span):
             new_product = await services.create_product(product)
-            new_product = Product(
-                product_uuid=new_product.product_uuid,
-                name=new_product.name,
-                description=new_product.description,
-                price=new_product.price,
-            )
             return new_product
 
 
