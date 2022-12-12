@@ -1,6 +1,7 @@
 from jaeger_client import Config, Tracer
 from opentracing.scope_managers.contextvars import ContextVarsScopeManager
 from opentracing_instrumentation.request_context import get_current_span, span_in_context
+import opentracing
 import logging
 import functools
 
