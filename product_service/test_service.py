@@ -18,7 +18,7 @@ class TestEndpoints(unittest.TestCase):
 
     async def test_get_all(self):
         async with AsyncClient(app=app, base_url="http://test") as ac:
-            resource = await client.get('/v1/products')
-            assert resource.status_code == 200
+            resource = await ac.get('/v1/products')
+            assert resource.status_code == 201
 
 
