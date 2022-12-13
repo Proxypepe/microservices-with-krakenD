@@ -12,6 +12,7 @@ from opentracing_instrumentation.request_context import get_current_span, span_i
 router = APIRouter(
     tags=['Products'],
     prefix='/products',
+    redirect_slashes=False,
 )
 
 

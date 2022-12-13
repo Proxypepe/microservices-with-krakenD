@@ -8,20 +8,40 @@ on:
 
 jobs:
 
-  test-image:
-
+  docker:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10"]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the test Docker image
-      run: | 
-        cd  product_service
-        docker build . --file Dockerfile.test -t product-service
-    - name: Run the test Docker image
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Start containers
+      run: docker-compose -f "docker-compose.test.yml" up -d --build
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
       run: |
-        docker run product-service
-  
+        cd test
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Test with pytest
+      run: |
+        pytest
+
+    - name: Stop containers
+      if: always()
+      run: docker-compose -f "docker-compose.yml" down
+
+
   load-image:
 
     needs: test-image
@@ -51,10 +71,3 @@ jobs:
           context: ./product_service
           push: true
           tags: justhynd/product_service:latest
-#      -
-#        name: Update repo description
-#        uses: peter-evans/dockerhub-description@v2
-#        with:
-#          username: ${{ secrets.DOCKERHUB_USERNAME }}
-#          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-#          repository: justhynd/product_service:latest

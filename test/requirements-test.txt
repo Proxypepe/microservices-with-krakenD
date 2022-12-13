@@ -1,0 +1,7 @@
+fastapi==0.87.0
+uvicorn==0.20.0
+requests
+httpx
+pytest
+pytest-asyncio
+anyio
