@@ -67,6 +67,7 @@ jobs:
       -
         name: Build and push
         uses: docker/build-push-action@v3
+        if: github.event_name == 'push'
         with:
           context: ./product_service
           push: true
